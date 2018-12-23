@@ -1,0 +1,58 @@
+#!/bin/sh
+# chkconfig: 234 90 10
+# this_is_the_name_of_the_script
+# change "name_of_script" with the corect filename
+
+. /etc/rc.d/init.d/functions
+
+. /etc/sysconfig/network
+
+[ "$NETWORKING" = "no" ] && exit 0
+
+workdir="/usr/local/bin/name_of_script"
+appname="name_of_script"
+appbin="/usr/bin/python"
+apparg="name_of_script.py"
+appoptions="-q"
+pidfile="/var/run/$appname.pid"
+lockfile="/var/lock/subsys/$appname"
+
+start() {
+        cd $workdir
+        echo -n $"Starting $appname: "
+        daemon --pidfile $pidfile "$appbin $apparg $appoptions &"
+        RETVAL=$?
+        echo
+        [ $RETVAL = 0 ] && touch $lockfile
+        return $RETVAL
+}
+
+stop() {
+        echo -n $"Stopping $appname: "
+        killproc $appbin
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] && rm -f $lockfile
+        return $RETVAL
+}
+
+case "$1" in
+
+        start)
+                $1
+        ;;
+
+        stop)
+                $1
+        ;;
+
+        restart)
+                stop
+                start
+        ;;
+
+*)
+        echo "Usage: /etc/init.d/name_of_script (start|stop|restart)"
+        exit 1
+esac
+exit 0
