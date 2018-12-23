@@ -3,13 +3,8 @@
 # this_is_the_name_of_the_script
 # change "name_of_script" with the corect filename
 
-. /etc/rc.d/init.d/functions
 
-. /etc/sysconfig/network
-
-[ "$NETWORKING" = "no" ] && exit 0
-
-workdir="/usr/local/bin/name_of_script"
+workdir="/path/to/file/name_of_script"
 appname="name_of_script"
 appbin="/usr/bin/python"
 apparg="name_of_script.py"
