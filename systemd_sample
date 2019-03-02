@@ -1,0 +1,16 @@
+[Unit]
+Description=add a description for this service here
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/python_code.py
+WorkingDirectory=/opt/
+Restart=always
+RestartSec=10
+User=dirk
+
+[Install]
+WantedBy=multi-user.target
+
+
